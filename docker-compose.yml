@@ -12,6 +12,7 @@ redis:
   image: redis
 
 sentry: &default
+  container_name: compose-sentry
   restart: always
   image: sentry
   command: sentry start
