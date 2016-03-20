@@ -13,7 +13,25 @@ redis:
   restart: always
   image: redis
 
-sentry: &default
+celerybeat:
+  image: sentry
+  command: sentry celery beat
+  environment:
+    SENTRY_DB_USER: sentry
+    SENTRY_DB_PASSWORD: sentry
+    SENTRY_DB_NAME: sentry
+    SENTRY_SECRET_KEY: ''
+
+celeryworker:
+  image: sentry
+  command: sentry celery worker
+  environment:
+    SENTRY_DB_USER: sentry
+    SENTRY_DB_PASSWORD: sentry
+    SENTRY_DB_NAME: sentry
+    SENTRY_SECRET_KEY: ''
+
+sentry:
   container_name: compose-sentry
   restart: always
   image: sentry
@@ -28,17 +46,3 @@ sentry: &default
     SENTRY_DB_PASSWORD: sentry
     SENTRY_DB_NAME: sentry
     SENTRY_SECRET_KEY: ''
-celerybeat:
-  <<: *default
-  container_name: compose-celerybeat
-  image: sentry
-  command: sentry celery beat
-  ports: []
-
-celeryworker:
-  <<: *default
-  container_name: compose-celeryworker
-  image: sentry
-  command: sentry celery worker
-  ports: []
-
